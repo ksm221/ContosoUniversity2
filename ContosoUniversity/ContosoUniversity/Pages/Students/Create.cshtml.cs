@@ -21,16 +21,17 @@ namespace ContosoUniversity.Pages.Students
 
         public IActionResult OnGet()
         {
+            Student = new Student { EnrollmentDate = DateTime.Now, FirstMidName = "Joe", LastName = "Smith" };
             return Page();
         }
 
         [BindProperty]
         public Student Student { get; set; }
 
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        #region snippet_OnPostAsync
         public async Task<IActionResult> OnPostAsync()
         {
+            #region snippet_TryUpdateModelAsync
             var emptyStudent = new Student();
 
             if (await TryUpdateModelAsync<Student>(
@@ -42,8 +43,10 @@ namespace ContosoUniversity.Pages.Students
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
+            #endregion
 
             return Page();
         }
+        #endregion
     }
 }
